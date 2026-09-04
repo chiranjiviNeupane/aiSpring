@@ -12,7 +12,7 @@ spring:
         embedding:
           api-key: ${GCP_API_KEY}
           text:
-            model: text-embedding-004
+            model: gemini-embedding-001
             dimensions: 768
 
 
