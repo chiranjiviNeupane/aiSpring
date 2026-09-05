@@ -55,4 +55,23 @@ public class RagController {
                 + " :: " + d.getText().substring(0,Math.min(120,d.getText().length())))
                 .toList();
     }
+
+    public record GroundedAnswer(String answer, List<String> sourceFiles, boolean answeredFromContext) {}
+
+    //same as /ask-docs but with structured output
+    @PostMapping("/ask-structured")
+    public GroundedAnswer askStructured(@RequestBody String question){
+        var qaAdvisor = QuestionAnswerAdvisor.builder(vectorStore)
+                .searchRequest(SearchRequest.builder()
+                        .similarityThreshold(0.5)
+                        .topK(4)
+                        .build())
+                .build();
+
+        return chatClient.prompt()
+                .advisors(qaAdvisor)
+                .user(question)
+                .call()
+                .entity(GroundedAnswer.class);
+    }
 }
