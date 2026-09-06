@@ -1,4 +1,4 @@
-package com.example.aiSpring;
+package com.example.aiSpring.rag;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
@@ -27,7 +27,7 @@ public class RagController {
     public String askDocs(@RequestBody String question){
         var qaAdvisor = QuestionAnswerAdvisor.builder(vectorStore)
                 .searchRequest(SearchRequest.builder()
-                        .similarityThreshold(0.5)
+                        .similarityThreshold(0.45)
                         .topK(4)
                         .build())
                 .build();
@@ -40,6 +40,8 @@ public class RagController {
     }
 
     //only for testing to see the difference between local embedding response and /ask-docs
+    //we will be using this search endpoint to test 5 expected prompt and 5 unexpected prompt
+    //with the result we will use the avg score as threshold value for other end-points
     @PostMapping("/search")
     public List<String> search(@RequestBody String question){
         List<Document> hits = vectorStore.similaritySearch(
@@ -63,7 +65,7 @@ public class RagController {
     public GroundedAnswer askStructured(@RequestBody String question){
         var qaAdvisor = QuestionAnswerAdvisor.builder(vectorStore)
                 .searchRequest(SearchRequest.builder()
-                        .similarityThreshold(0.5)
+                        .similarityThreshold(0.45)
                         .topK(4)
                         .build())
                 .build();

@@ -1,4 +1,4 @@
-package com.example.aiSpring;
+package com.example.aiSpring.rag;
 
 import org.springframework.ai.document.Document;
 import org.springframework.ai.reader.TextReader;
