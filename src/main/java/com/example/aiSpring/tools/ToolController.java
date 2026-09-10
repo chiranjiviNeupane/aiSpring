@@ -11,17 +11,19 @@ public class ToolController {
     private final ChatClient chatClient;
     private final DemoTools demoTools;
     private final OrderTools orderTools;
+    private final InventoryTools inventoryTools;
 
-    public ToolController(ChatClient.Builder builder, DemoTools demoTools, OrderTools orderTools) {
+    public ToolController(ChatClient.Builder builder, DemoTools demoTools, OrderTools orderTools, InventoryTools inventoryTools) {
         this.chatClient = builder.build();
         this.demoTools = demoTools;
         this.orderTools = orderTools;
+        this.inventoryTools = inventoryTools;
     }
 
     @PostMapping("/ask-tools")
     public String askTools(@RequestBody String question) {
         return chatClient.prompt()
-                .tools(demoTools,orderTools)
+                .tools(demoTools,orderTools,inventoryTools)
                 .user(question)
                 .call()
                 .content();

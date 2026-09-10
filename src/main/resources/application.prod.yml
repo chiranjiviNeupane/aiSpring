@@ -20,3 +20,9 @@ spring:
       pgvector:
         initialize-schema: true
         dimensions: 768
+
+app:
+  readonly:
+    url: jdbc:postgresql://localhost:5432/mydatabase
+    username: ${GCP_DB_USERNAME}
+    password: ${GCP_DB_PASSWORD}
